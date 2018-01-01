@@ -11,6 +11,8 @@ def start(bot, update):
 updater = Updater('462046710:AAFS-Xk2jtsGuyyCZa5jqNN5KRxwntSi5ro')
 
 
+def echo(bot, update):
+    bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
 start_handler = CommandHandler('start', start)
 dispatcher = updater.dispatcher
