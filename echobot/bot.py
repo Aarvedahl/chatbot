@@ -34,8 +34,13 @@ def inline_caps(bot, update):
     )
     bot.answer_inline_query(update.inline_query.id, results)
 
+
 def unknown(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command. Try something like /start")
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text="Sorry, I didn't understand that command." +
+        'Try something like /start')
+
 
 start_handler = CommandHandler('start', start)
 dispatcher = updater.dispatcher
