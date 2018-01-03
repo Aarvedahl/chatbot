@@ -9,7 +9,7 @@ def start(bot, update):
 
 
 updater = Updater('462046710:AAFS-Xk2jtsGuyyCZa5jqNN5KRxwntSi5ro')
-
+j = updater.job_queue
 
 def echo(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
@@ -18,6 +18,9 @@ def echo(bot, update):
 def caps(bot, update, args):
     text_caps = ' '.join(args).upper()
     bot.send_message(chat_id=update.message.chat_id, text=text_caps)
+
+
+def callback(bot, job):
 
 
 def inline_caps(bot, update):
@@ -38,8 +41,7 @@ def inline_caps(bot, update):
 def unknown(bot, update):
     bot.send_message(
         chat_id=update.message.chat_id,
-        text="Sorry, I didn't understand that command." +
-        'Try something like /start')
+        text="Sorry, I didn't understand that command Try something like /start")
 
 
 start_handler = CommandHandler('start', start)
