@@ -20,7 +20,13 @@ def caps(bot, update, args):
     bot.send_message(chat_id=update.message.chat_id, text=text_caps)
 
 
-def callback(bot, job):
+def callback_30(bot, job):
+    bot.send_message(chat_id=462046710, text='One message in 30 seconds')
+
+#j.run_once(callback_30, 30)
+
+def callback(bot, update):
+    bot.send_message(chat_id=update.message.chat_id, text="I will remind you in 30 seconds")
 
 
 def inline_caps(bot, update):
@@ -51,6 +57,8 @@ echo_handler = MessageHandler(Filters.text, echo)
 dispatcher.add_handler(echo_handler)
 caps_handler = CommandHandler('caps', caps, pass_args=True)
 dispatcher.add_handler(caps_handler)
+callback_handler = CommandHandler('callback', callback)
+dispatcher.add_handler(callback_handler)
 inline_caps_handler = InlineQueryHandler(inline_caps)
 dispatcher.add_handler(inline_caps_handler)
 unknown_handler = MessageHandler(Filters.command, unknown)
