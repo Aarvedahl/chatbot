@@ -21,13 +21,12 @@ def caps(bot, update, args):
 
 
 def callback_30(bot, job):
-    bot.send_message(chat_id=462046710, text='One message in 30 seconds')
+    bot.send_message(chat_id='183358557', text='One message after 30 seconds')
 
-#j.run_once(callback_30, 30)
 
 def callback(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="I will remind you in 30 seconds")
-
+    j.run_once(callback_30, 30)
 
 def inline_caps(bot, update):
     query = update.inline_query.query
