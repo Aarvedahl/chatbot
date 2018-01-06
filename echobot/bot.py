@@ -10,6 +10,8 @@ def start(bot, update):
 
 updater = Updater('462046710:AAFS-Xk2jtsGuyyCZa5jqNN5KRxwntSi5ro')
 j = updater.job_queue
+remindtext = ''
+
 
 def echo(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
@@ -20,15 +22,17 @@ def caps(bot, update, args):
     bot.send_message(chat_id=update.message.chat_id, text=text_caps)
 
 
-def callback_1min(bot, job, remindtext):
+def callback_1min(bot, job):
     bot.send_message(chat_id='183358557',
-            text='I was going to remind you to do ' + remindtext + ', have you done it yet?')
+            text='I was going to remind you ' + remindtext + ', have you done it yet?')
 
 
 def callback(bot, update, args):
     remindmetext = ' '.join(args)
+    global remindtext
+    remindtext = remindmetext
     bot.send_message(chat_id=update.message.chat_id, text="Ok, I will remind you!")
-    j.run_once(callback_1min, 60, remindmetext)
+    j.run_once(callback_1min, 60)
 
 def inline_caps(bot, update):
     query = update.inline_query.query
