@@ -20,13 +20,15 @@ def caps(bot, update, args):
     bot.send_message(chat_id=update.message.chat_id, text=text_caps)
 
 
-def callback_30(bot, job):
-    bot.send_message(chat_id='183358557', text='One message after 30 seconds')
+def callback_1min(bot, job, remindtext):
+    bot.send_message(chat_id='183358557',
+            text='I was going to remind you to do ' + remindtext + ', have you done it yet?')
 
 
-def callback(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text="I will remind you in 30 seconds")
-    j.run_once(callback_30, 30)
+def callback(bot, update, args):
+    remindmetext = ' '.join(args)
+    bot.send_message(chat_id=update.message.chat_id, text="Ok, I will remind you!")
+    j.run_once(callback_1min, 60, remindmetext)
 
 def inline_caps(bot, update):
     query = update.inline_query.query
@@ -56,7 +58,7 @@ echo_handler = MessageHandler(Filters.text, echo)
 dispatcher.add_handler(echo_handler)
 caps_handler = CommandHandler('caps', caps, pass_args=True)
 dispatcher.add_handler(caps_handler)
-callback_handler = CommandHandler('callback', callback)
+callback_handler = CommandHandler('remindme', callback, pass_args=True)
 dispatcher.add_handler(callback_handler)
 inline_caps_handler = InlineQueryHandler(inline_caps)
 dispatcher.add_handler(inline_caps_handler)
