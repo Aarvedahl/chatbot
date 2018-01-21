@@ -2,6 +2,7 @@
 # /setdestination feature
 # /transportation feature
 # Also it will ask what time the bus or train leaves to know which exactly you want to catch
+# Ask for timezone
 
 import telebot
 
@@ -15,5 +16,6 @@ def send_welcome(message):
 def echo_all(message):
 	bot.reply_to(message, message.text)
     # Bygg en egen phrase sorter here and if phrase not recognized show examples
+	# examples: My bus leaves at, I have got a bus at, I am getting there by bus
 
 bot.polling()
