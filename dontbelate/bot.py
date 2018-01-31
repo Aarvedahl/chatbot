@@ -16,15 +16,22 @@ estTimeToBus = 20
 def send_welcome(message):
     bot.reply_to(message, "Howdy, how are you doing?")
     bot.send_message(message.chat.id, "To set a destination please write, /setdestination 'Your Destination'")
+    bot.send_message(message.chat.id, "To set your form of transportation please write, /settransportation 'Your form of Transportation, Either Car, Walking or Bicycle'") 
+    bot.send_message(message.chat.id, "To set your home address please write, /sethome 'Your home address'") 
+
 
 @bot.message_handler(commands=['sethome'])
 def set_home(message):
-    bot.send_message(message.chat.id, "To set your home address please write, Sethome 'Your home address'") 
-    
+    msg = message.text.split(" ")
+    str1 = ' '.join(msg[1:])
+    bot.send_message(message.chat.id, "Your home has been set to " + str1)
+
 
 @bot.message_handler(commands=['transportation'])
 def set_transportation(message):
-    bot.send_message(message.chat.id, "To set your form of transportation please write, Settransportation 'Your form of Transportation, Either Car, Walking or Bicycle'") 
+    msg = message.text.split(" ")
+    str1 = ' '.join(msg[1:])
+    bot.send_message(message.chat.id, "Your form of transportation has been set to " + str1)
 
 
 @bot.message_handler(commands=['setdestination'])
