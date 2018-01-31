@@ -18,17 +18,17 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['sethome'])
 def set_home(message):
-    bot.reply_to(message, "Howdy, your home address has now been set")
+    bot.send_message(message.chat.id, "To set your home address please write, Sethome 'Your home address'") 
 
 
 @bot.message_handler(commands=['transportation'])
 def set_transportation(message):
-    bot.reply_to(message, "Howdy, your choice of transportation has now been set")
+    bot.send_message(message.chat.id, "To set your form of transportation please write, Settransportation 'Your form of Transportation, Either Car, Walking or Bicycle'") 
 
 
 @bot.message_handler(commands=['setdestination'])
 def set_destinaton(message):
-    bot.reply_to(message, "Howdy, your destination address has now been set")
+    bot.send_message(message.chat.id, "To set a destination please write, Setdestination 'Your Destination'") 
 
 
 @bot.message_handler(func=lambda message: True)
@@ -42,8 +42,7 @@ def echo_all(message):
                 date = datetime.now()
                 newDate = date.replace(hour=int(currentTime[0]), minute=int(currentTime[1]), second=0)
                 bot.send_message(message.chat.id, newDate)
-                minutesToSleep = 
-                time.sleep(60 * ((newDate.hour - date.hour)* 60) + (newDate.minute - date.minute))
+                minutesToSleep = time.sleep(60 * ((newDate.hour - date.hour)* 60) + (newDate.minute - date.minute))
 
     
     # Check the users current time and set a callback for the time busLeaves - estTimeToBus
