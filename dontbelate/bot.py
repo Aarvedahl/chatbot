@@ -49,13 +49,12 @@ def echo_all(message):
         for i in range(1, len(messages)):
             if messages[i] == "at":
                 currentTime = messages[i+1].split(":")
-                bot.send_message(message.chat.id, datetime.now())
                 date = datetime.now()
                 global estTimeToBus
                 newDate = date.replace(hour=int(currentTime[0]), minute=int(currentTime[1]), second=0)
-                bot.send_message(message.chat.id, newDate)
+                bot.send_message(message.chat.id, "I will remind you when you need to leave from you to do not miss your bus/train")
                 minutesToSleep = time.sleep(60 * ((newDate.hour - date.hour)* 60) + (newDate.minute - (date.minute + estTimeToBus)))
-
+                bot.send_message(message.chat.id, "You need to leave now to do not miss your bus")
     
     # Check the users current time and set a callback for the time busLeaves - estTimeToBus
     # Check wether it is 12/24 HOUR
