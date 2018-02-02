@@ -6,9 +6,11 @@
 from datetime import datetime
 import sched, time
 import telebot
-
+import googlemaps
+import responses
 
 bot = telebot.TeleBot("518828418:AAFmQrTfRxkXVp_hGpgCbslEtif1lRsYUaQ")
+gmaps = googlemaps.Client(key="Add key here")
 busLeaves = 0
 estTimeToBus = 20
 
@@ -53,6 +55,7 @@ def echo_all(message):
                 global estTimeToBus
                 newDate = date.replace(hour=int(currentTime[0]), minute=int(currentTime[1]), second=0)
                 bot.send_message(message.chat.id, "I will remind you when you need to leave from you to do not miss your bus/train")
+                
                 minutesToSleep = time.sleep(60 * ((newDate.hour - date.hour)* 60) + (newDate.minute - (date.minute + estTimeToBus)))
                 bot.send_message(message.chat.id, "You need to leave now to do not miss your bus")
     
