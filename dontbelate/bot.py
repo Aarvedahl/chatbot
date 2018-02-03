@@ -7,12 +7,16 @@ from datetime import datetime
 import sched, time
 import telebot
 import googlemaps
-import responses
+import urllib.request
+
 
 bot = telebot.TeleBot("518828418:AAFmQrTfRxkXVp_hGpgCbslEtif1lRsYUaQ")
-gmaps = googlemaps.Client(key="Add key here")
+gmaps = googlemaps.Client(key="AIzaSyBc6xZkMQRCcTCqUW2qp1uPqI4NwJdmYFA")
 busLeaves = 0
 estTimeToBus = 20
+home = ""
+destination = ""
+transportation = ""
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -27,6 +31,8 @@ def set_home(message):
     msg = message.text.split(" ")
     str1 = ' '.join(msg[1:])
     bot.send_message(message.chat.id, "Your home has been set to " + str1)
+    global home 
+    home = str1
 
 
 @bot.message_handler(commands=['settransportation'])
@@ -34,6 +40,8 @@ def set_transportation(message):
     msg = message.text.split(" ")
     str1 = ' '.join(msg[1:])
     bot.send_message(message.chat.id, "Your form of transportation has been set to " + str1)
+    global transportation 
+    transportation = str1
 
 
 @bot.message_handler(commands=['setdestination'])
@@ -41,7 +49,8 @@ def set_destinaton(message):
     msg = message.text.split(" ")
     str1 = ' '.join(msg[1:])
     bot.send_message(message.chat.id, "Your destination has been set to " + str1)
-     
+    global destination 
+    destination = str1     
 
 
 @bot.message_handler(func=lambda message: True)
@@ -55,7 +64,9 @@ def echo_all(message):
                 global estTimeToBus
                 newDate = date.replace(hour=int(currentTime[0]), minute=int(currentTime[1]), second=0)
                 bot.send_message(message.chat.id, "I will remind you when you need to leave from you to do not miss your bus/train")
-                
+                #test = urllib.request.urlopen("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Stala+Kyrka&destinations=Varekil&mode=bycycling&key=AIzaSyBc6xZkMQRCcTCqUW2qp1uPqI4NwJdmYFA").read()
+                test = gmaps.distance_matrix("Stala Kyrka", "Varekil")
+                print(test)
                 minutesToSleep = time.sleep(60 * ((newDate.hour - date.hour)* 60) + (newDate.minute - (date.minute + estTimeToBus)))
                 bot.send_message(message.chat.id, "You need to leave now to do not miss your bus")
     
