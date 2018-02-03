@@ -22,7 +22,7 @@ transportation = ""
 def send_welcome(message):
     bot.reply_to(message, "Howdy, how are you doing?")
     bot.send_message(message.chat.id, "To set a destination please write, /setdestination 'Your Destination'")
-    bot.send_message(message.chat.id, "To set your form of transportation please write, /settransportation 'Your form of Transportation, Either Car, Walking or Bicycle'") 
+    bot.send_message(message.chat.id, "To set your form of transportation please write, /settransportation 'Your form of Transportation, Either Driving, Walking or Bicycling'") 
     bot.send_message(message.chat.id, "To set your home address please write, /sethome 'Your home address'") 
 
 
@@ -41,7 +41,7 @@ def set_transportation(message):
     str1 = ' '.join(msg[1:])
     bot.send_message(message.chat.id, "Your form of transportation has been set to " + str1)
     global transportation 
-    transportation = str1
+    transportation = str1.lower()
 
 
 @bot.message_handler(commands=['setdestination'])
@@ -64,9 +64,10 @@ def echo_all(message):
                 global estTimeToBus
                 newDate = date.replace(hour=int(currentTime[0]), minute=int(currentTime[1]), second=0)
                 bot.send_message(message.chat.id, "I will remind you when you need to leave from you to do not miss your bus/train")
-                #test = urllib.request.urlopen("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Stala+Kyrka&destinations=Varekil&mode=bycycling&key=AIzaSyBc6xZkMQRCcTCqUW2qp1uPqI4NwJdmYFA").read()
-                test = gmaps.distance_matrix("Stala Kyrka", "Varekil")
+                test = gmaps.distance_matrix(home, destination, mode=transportation)
                 print(test)
+                bot.send_message(message.chat.id, "It is going to take you about " + test.duration.text + " to reach your destination")
+                print(test.duration.value/60)
                 minutesToSleep = time.sleep(60 * ((newDate.hour - date.hour)* 60) + (newDate.minute - (date.minute + estTimeToBus)))
                 bot.send_message(message.chat.id, "You need to leave now to do not miss your bus")
     
