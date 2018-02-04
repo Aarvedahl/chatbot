@@ -1,4 +1,3 @@
-# Ask for timezone
 from datetime import datetime
 import time
 import telebot
@@ -64,8 +63,8 @@ def echo_all(message):
                 bot.send_message(message.chat.id, "You need to leave now to do not miss your bus")
             else:
                 bot.send_message(message.chat.id, "Message was not recognized please write at what time your bus leaves")
-    # Check wether it is 12/24 HOUR
     else:
         bot.reply_to(message, "Your message was not recognized, please see some of the examples by typing /start or /help")
-    # phrase sorter here and if phrase not recognized show examples
+
+
 bot.polling()
