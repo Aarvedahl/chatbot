@@ -1,7 +1,5 @@
 FROM python:3
 
-WORKDIR ./
-
-COPY . .
+COPY ./ /
 
 CMD [ "python", "bot.py" ]
