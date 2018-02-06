@@ -49,7 +49,7 @@ def set_destinaton(message):
 def echo_all(message):
     if "My bus leaves" in message.text or "I have got a bus" in message.text or "I am getting there by bus" in message.text:
         global home, transportation, destination
-        if home or transportation or destination:
+        if not home or not transportation or not destination:
             bot.send_message(message.chat.id, "You have not set all of your variables, please try setting them again")
         else:
             messages = message.text.split(" ")
