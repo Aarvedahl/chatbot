@@ -31,6 +31,7 @@ def set_home(message):
 def set_transportation(message):
     msg = message.text.split(" ")
     str1 = ' '.join(msg[1:])
+    #if transportation is not walking, Bicycling or driving throw error message
     bot.send_message(message.chat.id, "Your form of transportation has been set to " + str1)
     global transportation
     transportation = str1.lower()
@@ -46,29 +47,32 @@ def set_destinaton(message):
 
 
 @bot.message_handler(func=lambda message: True)
-def echo_all(message):
+def phrase_sorter(message):
     if "My bus leaves" in message.text or "I have got a bus" in message.text or "I am getting there by bus" in message.text:
-        global home, transportation, destination
-        if not home or not transportation or not destination:
-            bot.send_message(message.chat.id, "You have not set all of your variables, please try setting them again")
-        else:
-            messages = message.text.split(" ")
-            for i in range(1, len(messages)):
-                if messages[i] == "at":
-                    currentTime = messages[i+1].split(":")
-                    date = datetime.now()
-                    global estTimeToBus
-                    newDate = date.replace(hour=int(currentTime[0]), minute=int(currentTime[1]), second=0)
-                    bot.send_message(message.chat.id, "I will remind you when you need to leave from you to do not miss your bus/train")
-                    test = gmaps.distance_matrix(home, destination, mode=transportation)
-                    duration = test['rows'][0]['elements'][0]['duration']
-                    bot.send_message(message.chat.id, "It is going to take you about " + duration['text'] + " to reach your destination")
-                    time.sleep(60 * ((newDate.hour - date.hour)* 60) + (newDate.minute - (2 + date.minute + (duration['value']/60))))
-                    bot.send_message(message.chat.id, "You need to leave now to do not miss your bus")
-                else:
-                    bot.send_message(message.chat.id, "Message was not recognized please write at what time your bus leaves")
+        bus_handler(message)
     else:
         bot.reply_to(message, "Your message was not recognized, please see some of the examples by typing /start or /help")
+
+def bus_handler(message):
+    global home, transportation, destination
+    if not home or not transportation or not destination:
+        bot.send_message(message.chat.id, "You have not set all of your variables, please try setting them again")
+    else:
+        messages = message.text.split(" ")
+        if not "at" in messages:
+            bot.send_message(message.chat.id, "Message was not recognized please write at what time your bus leaves")
+        for i in range(1, len(messages)):
+            if messages[i] == "at":
+                currentTime = messages[i+1].split(":")
+                date = datetime.now()
+                global estTimeToBus
+                newDate = date.replace(hour=int(currentTime[0]), minute=int(currentTime[1]), second=0)
+                bot.send_message(message.chat.id, "I will remind you when you need to leave from you to do not miss your bus/train")
+                test = gmaps.distance_matrix(home, destination, mode=transportation)
+                duration = test['rows'][0]['elements'][0]['duration']
+                bot.send_message(message.chat.id, "It is going to take you about " + duration['text'] + " to reach your destination")
+                time.sleep(60 * ((newDate.hour - date.hour)* 60) + (newDate.minute - (2 + date.minute + (duration['value']/60))))
+                bot.send_message(message.chat.id, "You need to leave now to do not miss your bus")
 
 
 bot.polling()
